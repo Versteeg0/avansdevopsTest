@@ -1,0 +1,34 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+    volumes:
+     - mongo-data:/data/db
+    env_file: ./.env
+    restart: always
+    networks:
+       - networktest
+          
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    environment:
+      - DB_HOST=mongodb
+      - DB_NAME=$MONGODB_DATABASE
+      - DB_PORT=$MONGODB_DOCKER_PORT
+    networks:
+      - networktest
+    depends_on:
+        - mongodb
+
+networks:
+  networktest:
+
+volumes:
+  mongo-data:

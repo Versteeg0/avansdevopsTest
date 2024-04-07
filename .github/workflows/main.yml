@@ -1,0 +1,19 @@
+name: 'coverage'
+on:
+  push:
+    paths:
+      - 'api/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Jest tests and generate coverage
+        uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          test-script: npm run test
+          working-directory: api
