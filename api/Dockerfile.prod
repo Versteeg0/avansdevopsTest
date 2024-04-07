@@ -6,11 +6,10 @@ COPY package*.json ./
 
 RUN npm install
 
+RUN npm install -g nodemon
+
 COPY . .
 
 EXPOSE 3000
-
-# ENV PORT=27017
-# ENV MONGO_HOST=mongodb
 
 CMD ["npm", "start"]
